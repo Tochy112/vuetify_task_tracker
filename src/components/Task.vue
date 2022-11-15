@@ -11,7 +11,7 @@
       </div>
       <v-spacer></v-spacer>
       <v-card-actions>
-        <v-btn @click="$emit('delete_task', task.id)">mdi-pencil</v-btn>
+        <v-btn @click="$emit('delete_task', task.id)" fab depressed> <v-icon class="">mdi-delete</v-icon> </v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
