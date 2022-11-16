@@ -3,24 +3,20 @@
     <v-app-bar flat>
       <v-toolbar-title>TaskTrack</v-toolbar-title>
       <v-spacer></v-spacer>
-      <Btn
-        @btn-click="$emit('toggle-form')"
-        :text="showForm ? 'close' : 'Add'"
+      <v-icon
+        @click="$emit('toggle-form')"
         :color="showForm ? 'red' : '#73CB73'"
-      />
+      >mdi-plus</v-icon>
     </v-app-bar>
   </nav>
 </template>
 
 <script>
-import Btn from '@/components/Button.vue'
 export default {
   name: 'Header',
   props: {
-    showForm: Boolean
-  },
-  components: {
-    Btn
+    showForm: Boolean,
+    color: String
   }
 }
 </script>

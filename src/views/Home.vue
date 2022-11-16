@@ -15,6 +15,7 @@
 import Header from '@/components/Header.vue'
 import Tasks from '@/components/Tasks.vue'
 import AddTask from '@/components/AddTask.vue'
+const api = 'http://localhost:5000'
 export default {
   name: 'Home',
   components: {
@@ -26,16 +27,53 @@ export default {
     toggleForm () {
       this.showForm = !this.showForm
     },
-    addTask (task) {
-      this.tasks = [...this.tasks, task]
+    async addTask (task) { // add a task to the api using post method
+      const res = await fetch(`${api}/tasks`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(task)
+      })
+      const data = await res.json()
+      this.tasks = [...this.tasks, data]
     },
-    toggleTask (id) {
+    async toggleTask (id) { // update a task in the api using put method
+      const taskToToggle = await this.fetchTask(id)
+      const updTask = { ...taskToToggle, status: !taskToToggle.status }
+
+      const res = await fetch(`${api}/tasks/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(updTask)
+      })
+      const data = await res.json()
       this.tasks = this.tasks.map((task) =>
-        task.id === id ? { ...task, status: !task.status } : task
+        task.id === id ? { ...task, status: data.status } : task
       )
     },
-    deleteTask (id) {
-      this.tasks = this.tasks.filter((task) => task.id !== id)
+    async deleteTask (id) { // deleting a task from the api using delete method
+      if (confirm('Are you sure?')) {
+        const res = await fetch(`${api}/tasks/${id}`, {
+          method: 'DELETE'
+        })
+
+        res.status === 200
+          ? (this.tasks = this.tasks.filter((task) => task.id !== id))
+          : alert('Error occurred deleting this task')
+      }
+    }, // fetch all the data from api
+    async fetchTasks () {
+      const res = await fetch(`${api}/tasks`)
+      const data = await res.json()
+      return data
+    }, // fetch a specific data from api
+    async fetchTask (id) {
+      const res = await fetch(`${api}/tasks/${id}`)
+      const data = await res.json()
+      return data
     }
   },
   data () {
@@ -44,27 +82,8 @@ export default {
       showForm: true
     }
   },
-  created () {
-    this.tasks = [
-      // {
-      //   id: 1,
-      //   text: 'Doctors Appointment',
-      //   day: 'March 1st at 2:30pm',
-      //   status: true
-      // },
-      // {
-      //   id: 2,
-      //   text: 'Meeting at School',
-      //   day: 'March 3rd at 1:30pm',
-      //   status: true
-      // },
-      // {
-      //   id: 3,
-      //   text: 'Food Shopping',
-      //   day: 'March 3rd at 10:00am',
-      //   status: false
-      // }
-    ]
+  async created () {
+    this.tasks = await this.fetchTasks()
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <v-container class="task">
     <v-card
-      height="100"
+      max-height="200"
       @dblclick="$emit('toggle_task', task.id)"
       :class="[task.status ? 'status' : '', 'd-flex default']"
     >

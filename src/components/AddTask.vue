@@ -68,7 +68,7 @@ export default {
     handleSubmit () {
       if (this.$refs.form.validate()) {
         const newTask = {
-          id: Math.floor(Math.random() * 100000),
+          // id: Math.floor(Math.random() * 100000),
           text: this.title,
           day: this.date,
           status: this.status
