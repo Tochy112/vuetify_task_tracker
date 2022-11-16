@@ -15,7 +15,7 @@
 import Header from '@/components/Header.vue'
 import Tasks from '@/components/Tasks.vue'
 import AddTask from '@/components/AddTask.vue'
-const api = 'http://localhost:5000'
+const api = 'https://mousy-brick-chimpanzee.glitch.me'
 export default {
   name: 'Home',
   components: {
