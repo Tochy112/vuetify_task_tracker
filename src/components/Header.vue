@@ -11,7 +11,7 @@
             <v-overlay :value="overlay" :opacity="opacity" height="200px">
               Double click on a task to update its status.
               <span class="red--text">Red</span>= Undone. <span style="color:#73cb73;">Green</span>= Done
-              <v-btn color="success" class="mx-auto" small @click="overlay = false">
+              <v-btn color="success" class="ml-3" small @click="overlay = false">
                 close
               </v-btn>
             </v-overlay>
@@ -45,6 +45,6 @@ export default {
 <style scoped>
 span {
   color: #73cb73;
-  font-family: cursive;
+  font-family:'Times New Roman', Times, serif;
 }
 </style>
