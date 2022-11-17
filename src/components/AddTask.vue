@@ -41,7 +41,7 @@
         </v-dialog>
 
         <!-- submit button -->
-        <v-btn color="success lighten-1" @click="handleSubmit" width="100%"
+        <v-btn color="success lighten-1" @click="handleSubmit" :loading="loading" width="100%"
           >Add Task</v-btn
         >
       </v-form>
@@ -58,6 +58,7 @@ export default {
       modal: false,
       title: '',
       date: '',
+      loading: false,
       displayCheck: false,
       status: false,
       inputRules: [(v) => !!v || "Field can't be empty"],
@@ -67,14 +68,20 @@ export default {
   methods: {
     handleSubmit () {
       if (this.$refs.form.validate()) {
+        this.loading = true
         const newTask = {
           // id: Math.floor(Math.random() * 100000),
           text: this.title,
           day: this.date,
           status: this.status
         }
-        this.$emit('add-task', newTask)
         this.$refs.form.reset()
+
+        setTimeout(() => {
+          this.loading = false
+        }, 1500)
+        this.$emit('add-task', newTask)
+        this.$emit(this.taskAdded)
       }
     }
   }

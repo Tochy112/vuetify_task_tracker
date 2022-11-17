@@ -1,10 +1,16 @@
 <template>
   <v-container>
     <v-card elevation="2" class="mx-auto mt-9" max-width="550">
+      <v-snackbar v-model="snackbar" color="success" top>
+      <span>New Task addded!!</span>
+      <v-btn depressed small color="success ml-6" class="white--text text-darken-5" @click="snackbar = !snackbar">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      </v-snackbar>
       <!-- header -->
       <Header @toggle-form="toggleForm"/>
       <!-- add task form -->
-      <AddTask @add-task="addTask" v-if="showForm"/>
+      <AddTask @add-task="addTask" @taskAdded="snackbar=true" v-if="showForm"/>
       <!-- individual task -->
       <Tasks :tasks="tasks" @toggle_task="toggleTask" @delete_task="deleteTask"/>
     </v-card>
@@ -37,6 +43,9 @@ export default {
       })
       const data = await res.json()
       this.tasks = [...this.tasks, data]
+      this.tasks
+        ? (this.snackbar = true)
+        : alert('Error occurred adding this task')
     },
     async toggleTask (id) { // update a task in the api using put method
       const taskToToggle = await this.fetchTask(id)
@@ -79,7 +88,8 @@ export default {
   data () {
     return {
       tasks: [],
-      showForm: true
+      showForm: true,
+      snackbar: false
     }
   },
   async created () {
